@@ -8,10 +8,11 @@ import (
 )
 
 var (
-	ErrUnknownState = errors.New("state not in list")
-	ErrUnknownEvent = errors.New("event not in list")
-	ErrUnknownStart = errors.New("start not in the state list")
-    ErrUnknownTransition = errors.New("transition with given event/state not in list")
+	ErrUnknownState      = errors.New("state not in list")
+	ErrUnknownEvent      = errors.New("event not in list")
+	ErrUnknownStart      = errors.New("start not in the state list")
+	ErrTerminalState     = errors.New("fsm in terminal state.")
+	ErrUnknownTransition = errors.New("transition with given event/state not in list")
 )
 
 type State int
@@ -41,12 +42,12 @@ func NewFSM(states []State, events []Event, start State, transitions ...Transiti
 		return nil, ErrUnknownStart
 	}
 
-    transitionMap := make(map[State]map[Event]State)
+	transitionMap := make(map[State]map[Event]State)
 	for _, transition := range transitions {
 		if !slices.Contains(states, transition.State) {
 			return nil, ErrUnknownState
 		}
-        eventStateMap := make(map[Event]State)
+		eventStateMap := make(map[Event]State)
 		for _, es := range transition.EventStates {
 			if !slices.Contains(events, es.Event) {
 				return nil, ErrUnknownEvent
@@ -56,37 +57,36 @@ func NewFSM(states []State, events []Event, start State, transitions ...Transiti
 				return nil, ErrUnknownState
 			}
 
-            eventStateMap[es.Event] = es.Next
+			eventStateMap[es.Event] = es.Next
 		}
-        transitionMap[transition.State] = eventStateMap
+		transitionMap[transition.State] = eventStateMap
 	}
 
-    return &FSM{
-        current: start,
-        states: states,
-        events: events,
-        transitions: transitionMap,
-    }, nil
+	return &FSM{
+		current:     start,
+		states:      states,
+		events:      events,
+		transitions: transitionMap,
+	}, nil
 }
 
 func (fsm *FSM) Current() State {
-    fsm.mu.RLock()
-    defer fsm.mu.RUnlock()
-    return fsm.current
+	fsm.mu.RLock()
+	defer fsm.mu.RUnlock()
+	return fsm.current
 }
 
-
 func (fsm *FSM) Transition(event Event) (State, error) {
-    fsm.mu.Lock()
-    defer fsm.mu.Unlock()
-    eventTransition, ok := fsm.transitions[fsm.current]
-    if !ok {
-        return fsm.current, ErrUnknownState
-    }
-    nextState, ok := eventTransition[event]
-    if !ok {
-        return fsm.current, ErrUnknownTransition
-    }
-    fsm.current = nextState
-    return nextState, nil
+	fsm.mu.Lock()
+	defer fsm.mu.Unlock()
+	eventTransition, ok := fsm.transitions[fsm.current]
+	if !ok {
+		return fsm.current, ErrTerminalState
+	}
+	nextState, ok := eventTransition[event]
+	if !ok {
+		return fsm.current, ErrUnknownTransition
+	}
+	fsm.current = nextState
+	return nextState, nil
 }
