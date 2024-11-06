@@ -1,0 +1,17 @@
+goos: linux
+goarch: amd64
+pkg: github.com/bento01dev/fsm
+cpu: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz
+      │   mine.txt    │             cocoon.txt              │              looplab.txt              │
+      │    sec/op     │   sec/op     vs base                │    sec/op     vs base                 │
+FSM-8   138.35n ± 14%   54.96n ± 8%  -60.27% (p=0.000 n=10)   921.75n ± 9%  +566.25% (p=0.000 n=10)
+
+      │ mine.txt │          cocoon.txt          │         looplab.txt          │
+      │   B/op   │   B/op    vs base            │    B/op     vs base          │
+FSM-8   0.0 ± 0%   0.0 ± 0%  ~ (p=1.000 n=10) ¹   572.0 ± 0%  ? (p=0.000 n=10)
+¹ all samples are equal
+
+      │  mine.txt  │           cocoon.txt           │         looplab.txt          │
+      │ allocs/op  │ allocs/op   vs base            │ allocs/op   vs base          │
+FSM-8   0.000 ± 0%   0.000 ± 0%  ~ (p=1.000 n=10) ¹   9.000 ± 0%  ? (p=0.000 n=10)
+¹ all samples are equal

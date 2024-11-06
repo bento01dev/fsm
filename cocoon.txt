@@ -1,0 +1,16 @@
+goos: linux
+goarch: amd64
+pkg: github.com/bento01dev/fsm
+cpu: 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz
+BenchmarkFSM-8   	23649658	        49.69 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	23906941	        50.41 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	23752675	        51.29 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	22711921	        51.88 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	23062971	        54.56 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	22738626	        55.37 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	21702464	        56.69 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	19167097	        59.27 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	17786649	        59.18 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFSM-8   	22125787	        59.21 ns/op	       0 B/op	       0 allocs/op
+PASS
+ok  	github.com/bento01dev/fsm	12.594s

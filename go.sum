@@ -1,2 +1,6 @@
+github.com/cocoonspace/fsm v1.0.1 h1:dPjDYJh1XL7r8jERbAVFrk7kLzTOaRgx9EBoS9fV6PA=
+github.com/cocoonspace/fsm v1.0.1/go.mod h1:2NILMnDanocMM88qdqAzyq9Q1DwCjXqAIGtbhdXFC0Q=
+github.com/looplab/fsm v1.0.2 h1:f0kdMzr4CRpXtaKKRUxwLYJ7PirTdwrtNumeLN+mDx8=
+github.com/looplab/fsm v1.0.2/go.mod h1:PmD3fFvQEIsjMEfvZdrCDZ6y8VwKTwWNjlpEr6IKPO4=
 golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c h1:7dEasQXItcW1xKJ2+gg5VOiBnqWrJc+rq0DPKyvvdbY=
 golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c/go.mod h1:NQtJDoLvd6faHhE7m4T/1IY708gDefGGjR/iUW8yQQ8=
