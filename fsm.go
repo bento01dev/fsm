@@ -78,7 +78,7 @@ func (fsm *FSM) Current() State {
 
 func (fsm *FSM) Transition(event Event) (State, error) {
 	fsm.mu.Lock()
-	defer fsm.mu.Unlock()
+	// defer fsm.mu.Unlock()
 	eventTransition, ok := fsm.transitions[fsm.current]
 	if !ok {
 		return fsm.current, ErrTerminalState
@@ -87,6 +87,11 @@ func (fsm *FSM) Transition(event Event) (State, error) {
 	if !ok {
 		return fsm.current, ErrUnknownTransition
 	}
+	if fsm.current == nextState {
+		fsm.mu.Unlock()
+		return fsm.current, nil
+	}
 	fsm.current = nextState
+	fsm.mu.Unlock()
 	return nextState, nil
 }
