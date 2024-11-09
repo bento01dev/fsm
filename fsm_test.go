@@ -44,6 +44,8 @@ func BenchmarkFSM(b *testing.B) {
 	})
 }
 
+var res fsm.State
+
 func BenchmarkMyFSM(b *testing.B) {
 	states := []fsm.State{STATE_1, STATE_2, STATE_3, STATE_4, STATE_5}
 	events := []fsm.Event{EVENT_1, EVENT_2, EVENT_3, EVENT_4, EVENT_5, EVENT_6}
@@ -81,14 +83,20 @@ func BenchmarkMyFSM(b *testing.B) {
 	}
 	b.ResetTimer()
 	b.RunParallel(func(p *testing.PB) {
+		var x, y fsm.State
+		var err error
 		for p.Next() {
-			if _, err := f.Transition(EVENT_2); err != nil {
+			x, err = f.Transition(EVENT_2)
+			if err != nil {
 				b.Fatal(err)
 			}
-			if _, err := f.Transition(EVENT_1); err != nil {
+			y, err = f.Transition(EVENT_1)
+			if err != nil {
 				b.Fatal(err)
 			}
 		}
+        res = x
+        res = y
 	})
 }
 
@@ -102,16 +110,21 @@ const (
 	EventBar
 )
 
+var res1 bool
+
 func BenchmarkCocoonSpaceFSM(b *testing.B) {
 	f := csfsm.New(StateFoo)
 	f.Transition(csfsm.On(EventFoo), csfsm.Src(StateFoo), csfsm.Dst(StateBar))
 	f.Transition(csfsm.On(EventBar), csfsm.Src(StateBar), csfsm.Dst(StateFoo))
+	var x, y bool
 	b.ResetTimer()
 	b.RunParallel(func(p *testing.PB) {
 		for p.Next() {
-			f.Event(EventFoo)
-			f.Event(EventBar)
+			x = f.Event(EventFoo)
+			y = f.Event(EventBar)
 		}
+		res1 = x
+		res1 = y
 	})
 }
 

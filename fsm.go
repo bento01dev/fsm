@@ -78,7 +78,6 @@ func (fsm *FSM) Current() State {
 
 func (fsm *FSM) Transition(event Event) (State, error) {
 	fsm.mu.Lock()
-	// defer fsm.mu.Unlock()
 	eventTransition, ok := fsm.transitions[fsm.current]
 	if !ok {
 		return fsm.current, ErrTerminalState
